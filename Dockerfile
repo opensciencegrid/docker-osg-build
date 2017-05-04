@@ -11,13 +11,14 @@ RUN yum -y install https://repo.grid.iu.edu/osg/3.3/osg-3.3-el7-release-latest.r
                    osg-build && \
     groupadd builder && \
     useradd -g builder -G mock -m builder && \
-    mkdir -p /home/builder/.osg-koji && \
-    ln -s /home/builder/.osg-koji /home/builder/.koji
+    install -d -o builder -g builder -m 0755 /home/builder/.osg-koji && \
+    ln -s /home/builder/.osg-koji /home/builder/.koji && \
+    chown builder:builder /home/builder/.koji
 
-COPY osg-ca-bundle.crt    /home/builder/.osg-koji/osg-ca-bundle.crt
-COPY config               /home/builder/.osg-koji/config
-COPY osg-build-inside.sh  /usr/local/bin/osg-build-inside.sh
-COPY osg-koji-inside.sh   /usr/local/bin/osg-koji-inside.sh
+COPY input/osg-ca-bundle.crt    /home/builder/.osg-koji/osg-ca-bundle.crt
+COPY input/config               /home/builder/.osg-koji/config
+COPY input/osg-build.sh  /usr/local/bin/osg-build.sh
+COPY input/osg-koji.sh   /usr/local/bin/osg-koji.sh
 
 USER builder
 WORKDIR /home/builder
