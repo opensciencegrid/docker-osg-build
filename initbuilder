@@ -12,19 +12,25 @@ work_dir=~/work
 
 [[ -x $work_dir ]] || die "$work_dir not found or not readable"
 
+work_dir=$(cd "$work_dir" && pwd -P) || die "error getting absolute path of $work_dir"
 
 set -eu
 
 hash=$(docker ps --latest --quiet --filter name=osgbuilder)
 
 if [[ -z $hash ]]; then
-    echo -n 'creating docker image: '
+    echo -n 'creating docker container: '
     docker create -it \
-                      --volume $HOME/.globus:/home/builder/.globus \
-                      --volume "$work_dir":/home/builder/work \
+                      --volume "$HOME/.globus":/u/.globus \
+                      --volume "$work_dir":/u/work \
                       --name osgbuilder \
                       matyasselmeci:osgbuilder  && \
         sleep 2
 fi
 
 docker start osgbuilder
+sleep 2
+
+docker exec osgbuilder \
+    bash -c "echo '$work_dir' > /u/.work_dir"
+

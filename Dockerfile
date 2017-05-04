@@ -17,9 +17,7 @@ RUN yum -y install https://repo.grid.iu.edu/osg/3.3/osg-3.3-el7-release-latest.r
 
 COPY input/osg-ca-bundle.crt    /u/.osg-koji/osg-ca-bundle.crt
 COPY input/config               /u/.osg-koji/config
-COPY input/osg-build.sh         /usr/local/bin/osg-build.sh
-COPY input/osg-koji.sh          /usr/local/bin/osg-koji.sh
-COPY input/utils.sh             /usr/local/libexec/utils.sh
+COPY input/command-wrapper.sh   /usr/local/bin/command-wrapper.sh
 
 USER u
 WORKDIR /u
