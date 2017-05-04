@@ -1,0 +1,2 @@
+#!/bin/bash
+exec docker build --squash -f Dockerfile.base . --tag matyasselmeci:osgbuilderbase

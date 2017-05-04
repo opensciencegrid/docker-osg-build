@@ -1,0 +1,12 @@
+FROM centos:centos7
+
+LABEL name="OSG 3.3 OSG-Build client (software only)"
+
+RUN yum -y install https://repo.grid.iu.edu/osg/3.3/osg-3.3-el7-release-latest.rpm && \
+    yum -y install epel-release \
+                   yum-plugin-priorities && \
+    yum -y install --enablerepo=osg-development \
+                   globus-proxy-utils \
+                   redhat-lsb-core \
+                   osg-build
+
