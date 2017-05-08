@@ -41,7 +41,7 @@ if [[ -z $hash ]]; then
     echo -n 'creating docker container: '
     docker create -it \
                       --volume "$HOME/.globus":/u/.globus \
-                      --volume "$work_dir":/u/work \
+                      --volume "$work_dir":"$MOUNT_POINT" \
                       --name $CONTAINER_NAME \
                       $IMAGE  && \
         sleep 2
