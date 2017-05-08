@@ -2,16 +2,32 @@
 
 CONTAINER_NAME=osgbuilder
 IMAGE=matyasselmeci:osgbuilder
+MOUNT_POINT=/u/work
 
 die () {
     echo "$@" 1>&2
     exit 1
 }
 
+if [[ $# -ne 1 ]]; then
+    echo "Usage: $(basename "$0") <work-dir>"
+    echo
+    echo "work-dir is the name of a directory above your repository checkouts."
+    echo "For example, if you did an svn checkout of native/redhat into ~/work/redhat"
+    echo "then you can specify either ~/work or ~/redhat. (Or just plain ~ if you want"
+    echo "to mount your entire home directory into the container.)"
+    echo
+    echo "Whichever you choose, You need to make sure that your .svn or .git directory"
+    echo "or directories for the package(s) you want to build are inside work-dir."
+    echo
+    echo "The directory will be mounted under $MOUNT_POINT"
+    exit 2
+fi
+
 [[ -r $HOME/.globus/usercert.pem ]] || die "~/.globus/usercert.pem not found or not readable"
 [[ -r $HOME/.globus/userkey.pem ]] || die "~/.globus/userkey.pem not found or not readable"
 
-work_dir=~/work
+work_dir=${1?}  # should never actually fail
 
 [[ -x $work_dir ]] || die "$work_dir not found or not readable"
 
