@@ -55,7 +55,9 @@ current user cert and key inside `~/.globus/usercert.pem` and
 `~/.globus/userkey.pem` to run `docker-osg-build`.
 
 To create the Docker container, run:
+
     initbuilder <work-dir>
+
 where `<work-dir>` is the directory under which your packages are. For example,
 if you have an SVN checkout of https://vdt.cs.wisc.edu/svn/native/redhat in
 `~/work/redhat`, you should use `~/work/redhat` for your `<work-dir>`. The
