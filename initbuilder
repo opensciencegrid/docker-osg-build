@@ -47,11 +47,13 @@ if [[ -z $hash ]]; then
         sleep 2
 else
     echo "docker container \`$CONTAINER_NAME' already exists"
+    echo "Ignoring <work-dir>"
 fi
 
 docker start $CONTAINER_NAME
 sleep 2
 
-docker exec $CONTAINER_NAME \
-    bash -c "echo '$work_dir' > /u/.work_dir"
-
+if [[ -z $hash ]]; then
+    docker exec $CONTAINER_NAME \
+        bash -c "echo '$work_dir' > /u/.work_dir"
+fi
