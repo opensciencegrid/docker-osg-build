@@ -1,6 +1,6 @@
 FROM matyasselmeci:osgbuilderbase
 
-LABEL name="OSG 3.3 OSG-Build client"
+LABEL name="OSG 3.4 OSG-Build client"
 
 RUN groupadd u && \
     useradd -g u -G mock -m -d /u u && \
