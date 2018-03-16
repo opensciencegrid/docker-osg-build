@@ -30,19 +30,8 @@ Initial image
 Before using these scripts, you will need to build the Docker image that they
 are based on.
 
-Because of its experimental nature, the base Docker container for
-`docker-osg-build` has been split into two images,
-`matyasselmeci:osgbuilderbase` and `matyasselmeci:osgbuilder`.
-
-`osgbuilderbase` is an image containing only the software installation of
-`osg-build` and relevant software packages and dependencies. `osgbuilder` also
-contains configuration and utility scripts for running OSG build commands.
-
-To build the base image, `osgbuilderbase`, run the script named
-`buildbuilderbase`.
-
-After that, to build the main image, `osgbuilder`, run the script named
-`buildbuilder`.
+To build the image, run the script named `buildbuilder`.  This will result
+in an image named `matyasselmeci:osgbuilder`.
 
 
 Starting up the image
@@ -94,7 +83,6 @@ Example usage
 
 (do once):
 
-    ~/docker-osg-build/buildbuilderbase
     ~/docker-osg-build/buildbuilder
     svn checkout https://vdt.cs.wisc.edu/svn/native/redhat ~/work/redhat
     ~/docker-osg-build/initbuilder ~/work/redhat

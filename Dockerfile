@@ -1,6 +1,14 @@
-FROM matyasselmeci:osgbuilderbase
+FROM centos:centos7
 
 LABEL name="OSG 3.4 OSG-Build client"
+
+RUN yum -y install https://repo.grid.iu.edu/osg/3.4/osg-3.4-el7-release-latest.rpm && \
+    yum -y install epel-release \
+                   yum-plugin-priorities && \
+    yum -y install --enablerepo=osg-development \
+                   globus-proxy-utils \
+                   redhat-lsb-core \
+                   osg-build
 
 RUN groupadd u && \
     useradd -g u -G mock -m -d /u u && \
