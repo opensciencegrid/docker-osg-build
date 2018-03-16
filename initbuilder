@@ -1,7 +1,7 @@
 #!/bin/bash
 
 CONTAINER_NAME=osg-build
-IMAGE=opensciencegrid:osg-build
+IMAGE=opensciencegrid/osg-build
 MOUNT_POINT=/u/work
 
 die () {
