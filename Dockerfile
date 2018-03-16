@@ -1,4 +1,4 @@
-FROM centos:centos7
+FROM centos:7
 
 LABEL name="OSG 3.4 OSG-Build client"
 
