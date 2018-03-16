@@ -11,27 +11,23 @@ The model of these wrapper scripts is to start up a persistent Docker
 container with your 'work directory' -- the directory that contains your
 checkouts of OSG packages -- mounted inside the container.
 
-These scripts are still in an experimental stage. As of 2017-05-10, they have
-been tested on macOS 10.12 (Sierra).
-
 
 Requirements
 ============
 * Docker
 * Your grid cert and key in `~/.globus/usercert.pem` and `~/.globus/userkey.pem`
+  as files (not symlinks)
 
 
 Instructions
 ============
 
-Initial image
--------------
+Docker image
+------------
 
-Before using these scripts, you will need to build the Docker image that they
-are based on.
-
-To build the image, run the script named `buildbuilder`.  This will result
-in an image named `opensciencegrid:osg-build`.
+Before using these scripts, you will need to pull the Docker image from
+DockerHub via `docker pull opensciencegrid/osg-build`.  Alternatively, you can
+run the `buildbuilder` script to build it locally.
 
 
 Starting up the image
@@ -90,6 +86,6 @@ Example usage
 Subsequent operations:
 
     cd ~/work/redhat/osg-ce
-    ~/docker-osg-build/osg-build koji --scratch --getfiles .
-    ~/docker-osg-build/osg-koji list-tagged osg-3.3-el6-development
+    ~/docker-osg-build/exec-osg-build koji --scratch --getfiles .
+    ~/docker-osg-build/exec-osg-koji list-tagged osg-3.4-el7-development
 
