@@ -8,7 +8,9 @@ RUN yum -y install https://repo.grid.iu.edu/osg/3.4/osg-3.4-el7-release-latest.r
     yum -y install --enablerepo=osg-development \
                    globus-proxy-utils \
                    redhat-lsb-core \
-                   osg-build
+                   osg-build && \
+    yum clean all --enablerepo=\* && \
+    rm -rf /var/cache/yum/*
 
 RUN groupadd u && \
     useradd -g u -G mock -m -d /u u && \
