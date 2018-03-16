@@ -26,6 +26,8 @@ fi
 
 [[ -r $HOME/.globus/usercert.pem ]] || die "~/.globus/usercert.pem not found or not readable"
 [[ -r $HOME/.globus/userkey.pem ]] || die "~/.globus/userkey.pem not found or not readable"
+[[ -L $HOME/.globus/usercert.pem ]] && die "~/.globus/usercert.pem is a symlink; turn it into a regular file"
+[[ -L $HOME/.globus/userkey.pem ]] && die "~/.globus/userkey.pem is a symlink; turn it into a regular file"
 
 work_dir=${1?}  # should never actually fail
 
