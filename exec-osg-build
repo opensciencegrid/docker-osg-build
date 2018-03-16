@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CONTAINER_NAME=osgbuilder
+CONTAINER_NAME=osg-build
 
 docker exec -it $CONTAINER_NAME \
     /usr/local/bin/command-wrapper.sh "$(pwd -P)" osg-build "$@"

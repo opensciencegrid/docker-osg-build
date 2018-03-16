@@ -31,7 +31,7 @@ Before using these scripts, you will need to build the Docker image that they
 are based on.
 
 To build the image, run the script named `buildbuilder`.  This will result
-in an image named `matyasselmeci:osgbuilder`.
+in an image named `opensciencegrid:osg-build`.
 
 
 Starting up the image
@@ -55,9 +55,9 @@ otherwise `osg-build` won't be able to find the SVN information about the
 packages you're building. Similarly, if you're building packages from a Git
 repo, your `.git` directory must be inside `<work-dir>`.
 
-`initbuilder` will start a Docker container named `osgbuilder`. In case Docker
+`initbuilder` will start a Docker container named `osg-build`. In case Docker
 gets shut down, or the container gets turned off for some other reason, run
-`docker start osgbuilder` to start the container back up.
+`docker start osg-build` to start the container back up.
 
 
 Using the tools

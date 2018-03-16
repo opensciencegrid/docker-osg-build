@@ -1,2 +1,2 @@
 #!/bin/bash
-exec docker build --squash . --tag matyasselmeci:osgbuilder
+exec docker build --squash . --tag opensciencegrid:osg-build
