@@ -1,5 +1,6 @@
 FROM centos:7
 
+LABEL maintainer OSG Software <help@opensciencegrid.org>
 LABEL name="OSG 3.4 OSG-Build client"
 
 RUN yum -y install https://repo.opensciencegrid.org/osg/3.4/osg-3.4-el7-release-latest.rpm && \
