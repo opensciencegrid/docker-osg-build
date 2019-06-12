@@ -49,6 +49,7 @@ RUN groupadd u && \
 COPY input/osg-ca-bundle.crt    /u/.osg-koji/osg-ca-bundle.crt
 COPY input/config               /u/.osg-koji/config
 COPY input/command-wrapper.sh   /usr/local/bin/command-wrapper.sh
+COPY build-from-github          /usr/local/bin/build-from-github
 
 USER u
 WORKDIR /u
