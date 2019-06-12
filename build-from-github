@@ -2,7 +2,7 @@
 
 # Generate the dirs/files necessary for osg-build
 mkdir upstream
-VERSION=$(rpmspec -P "/$REPO_NAME/rpm/$REPO_NAME.spec" | awk '/^Version:/ {print $2; exit}')
+[[ -z $VERSION ]] && VERSION=$(rpmspec -P "/$REPO_NAME/rpm/$REPO_NAME.spec" | awk '/^Version:/ {print $2; exit}')
 echo "type=git url=/$REPO_NAME name=$REPO_NAME tarball=$REPO_NAME-$VERSION.tar.gz tag=HEAD hash=dummy" > upstream/local.git.source
 
 # Run osg-build
