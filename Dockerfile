@@ -32,8 +32,7 @@ RUN yum -y install https://repo.opensciencegrid.org/osg/3.4/osg-3.4-el7-release-
 		   diffutils \
 		   gzip \
 		   redhat-release \
-		   bzip2 && \
-    yum -y install --enablerepo=osg-development \
+		   bzip2 \
                    globus-proxy-utils \
                    redhat-lsb-core \
                    osg-build && \
