@@ -89,3 +89,10 @@ Subsequent operations:
     ~/docker-osg-build/exec-osg-build koji --scratch --getfiles .
     ~/docker-osg-build/exec-osg-koji list-tagged osg-3.4-el7-development
 
+Alternatively, test builds in Travis-CI:
+
+    env:
+      - REPO_NAME=${TRAVIS_REPO_SLUG#*/}
+
+    before_install:
+      - docker run opensciencegrid/osg-build -v /$REPO_NAME:/$REPO_NAME build-from-github
