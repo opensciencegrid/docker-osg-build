@@ -95,6 +95,10 @@ Alternatively, test builds in Travis-CI:
     env:
       - REPO_NAME=${TRAVIS_REPO_SLUG#*/}
 
+    git:
+      depth: false
+      quiet: true
+
     services:
       - docker
 
