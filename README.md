@@ -106,4 +106,4 @@ Alternatively, test builds in Travis-CI:
       - sudo docker pull opensciencegrid/osg-build
 
     script:
-      - docker run opensciencegrid/osg-build -v /$REPO_NAME:/$REPO_NAME build-from-github
+      - docker run -v /$REPO_NAME:/$REPO_NAME opensciencegrid/osg-build build-from-github
