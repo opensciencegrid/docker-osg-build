@@ -95,6 +95,10 @@ Alternatively, test builds in Travis-CI:
     env:
       - REPO_NAME=${TRAVIS_REPO_SLUG#*/}
 
+    git:
+      depth: false
+      quiet: true
+
     services:
       - docker
 
@@ -106,4 +110,4 @@ Alternatively, test builds in Travis-CI:
       - sudo docker pull opensciencegrid/osg-build
 
     script:
-      - docker run opensciencegrid/osg-build -v /$REPO_NAME:/$REPO_NAME build-from-github
+      - docker run -v $(pwd):/$REPO_NAME -e REPO_NAME=$REPO_NAME opensciencegrid/osg-build build-from-github
