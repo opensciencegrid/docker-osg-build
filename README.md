@@ -89,3 +89,21 @@ Subsequent operations:
     ~/docker-osg-build/exec-osg-build koji --scratch --getfiles .
     ~/docker-osg-build/exec-osg-koji list-tagged osg-3.4-el7-development
 
+Alternatively, test builds in Travis-CI:
+
+    sudo: required
+    env:
+      - REPO_NAME=${TRAVIS_REPO_SLUG#*/}
+
+    services:
+      - docker
+
+    before_install:
+      - sudo apt-get update
+      - echo 'DOCKER_OPTS="-H tcp://127.0.0.1:2375 -H unix:///var/run/docker.sock -s devicemapper"' | sudo tee /etc/default/docker > /dev/null
+      - sudo service docker restart
+      - sleep 5
+      - sudo docker pull opensciencegrid/osg-build
+
+    script:
+      - docker run opensciencegrid/osg-build -v /$REPO_NAME:/$REPO_NAME build-from-github
