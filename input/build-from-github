@@ -7,4 +7,4 @@ mkdir upstream
 echo "type=git url=/$REPO_NAME name=$REPO_NAME tarball=$TARBALL_NAME tag=HEAD hash=dummy" > upstream/local.git.source
 
 # Run osg-build
-osg-build rpmbuild .
+osg-build --verbose mock .
