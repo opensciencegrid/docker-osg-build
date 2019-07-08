@@ -8,10 +8,11 @@ echo "type=git url=/$REPO_NAME name=$REPO_NAME tarball=$TARBALL_NAME tag=HEAD ha
 
 # Run osg-build
 osg-build --verbose mock .
-
+ret=$?
 if [ $? -ne 0 ]; then
-    for build_log in state.log root.log build.log; do
+    for build_log in root.log build.log; do
         echo "### $build_log ###"
         cat /u/_build_results/$build_log
     done
 fi
+exit $ret
