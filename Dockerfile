@@ -1,13 +1,14 @@
 FROM centos:7
 
 LABEL maintainer="OSG Software <help@opensciencegrid.org>"
-LABEL name="OSG 3.4 OSG-Build client"
+LABEL name="OSG 3.5 OSG-Build client"
 
-RUN yum -y install https://repo.opensciencegrid.org/osg/3.4/osg-3.4-el7-release-latest.rpm && \
-    yum -y install epel-release \
+RUN yum -y install https://repo.opensciencegrid.org/osg/3.5/osg-3.5-el7-release-latest.rpm \
+                   epel-release \
                    yum-plugin-priorities && \
     # Install packages included in the Koji build repos
     yum -y install --enablerepo=osg-development \
+                   --enablerepo=devops-itb \
                    epel-rpm-macros \
 		   tar \
 		   sed \
