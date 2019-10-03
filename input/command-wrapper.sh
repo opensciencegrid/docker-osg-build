@@ -21,7 +21,7 @@ get_proxy_if_needed () {
 }
 
 relpath () {
-    python -c "import os; print os.path.relpath(r'''$1''', r'''$2''')"
+    python -c "import os,sys; print os.path.relpath(sys.argv[1], sys.argv[2])" "$1" "$2"
 }
 
 outside_wd=$1
