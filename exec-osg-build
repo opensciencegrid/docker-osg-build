@@ -2,5 +2,8 @@
 
 CONTAINER_NAME=osg-build
 
-docker exec -it $CONTAINER_NAME \
+t=
+[[ -t 0 ]] && t=-t
+
+docker exec -i $t $CONTAINER_NAME \
     /usr/local/bin/command-wrapper.sh "$(pwd -P)" osg-build "$@"
