@@ -10,30 +10,30 @@ RUN yum -y install https://repo.opensciencegrid.org/osg/3.5/osg-3.5-el7-release-
     yum -y install --enablerepo=osg-development \
                    --enablerepo=devops-itb \
                    epel-rpm-macros \
-		   tar \
-		   sed \
-		   findutils \
-		   gcc \
-		   redhat-rpm-config \
-		   make \
-		   shadow-utils \
-		   coreutils \
-		   buildsys-macros \
-		   which \
-		   gcc-c++ \
-		   unzip \
-		   gawk \
-		   cpio \
-		   bash \
-		   info \
-		   grep \
-		   rpm-build \
-		   patch \
-		   util-linux-ng \
-		   diffutils \
-		   gzip \
-		   redhat-release \
-		   bzip2 \
+                   tar \
+                   sed \
+                   findutils \
+                   gcc \
+                   redhat-rpm-config \
+                   make \
+                   shadow-utils \
+                   coreutils \
+                   buildsys-macros \
+                   which \
+                   gcc-c++ \
+                   unzip \
+                   gawk \
+                   cpio \
+                   bash \
+                   info \
+                   grep \
+                   rpm-build \
+                   patch \
+                   util-linux-ng \
+                   diffutils \
+                   gzip \
+                   redhat-release \
+                   bzip2 \
                    globus-proxy-utils \
                    redhat-lsb-core \
                    osg-build && \
