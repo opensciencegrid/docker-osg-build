@@ -39,7 +39,7 @@ RUN yum -y install https://repo.opensciencegrid.org/osg/3.5/osg-3.5-el7-release-
                    osg-build && \
     yum clean all --enablerepo=\* && \
     rm -rf /var/cache/yum/* && \
-    rpm -qa > /rpms.txt
+    rpm -qa | sort > /rpms.txt
 
 RUN groupadd u && \
     useradd -g u -G mock -m -d /u u && \
