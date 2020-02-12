@@ -36,6 +36,7 @@ RUN yum -y install https://repo.opensciencegrid.org/osg/3.5/osg-3.5-el7-release-
                    bzip2 \
                    globus-proxy-utils \
                    redhat-lsb-core \
+                   rpmdevtools \
                    osg-build && \
     yum clean all --enablerepo=\* && \
     rm -rf /var/cache/yum/* && \
