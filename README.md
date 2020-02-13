@@ -111,3 +111,7 @@ Alternatively, test builds in Travis-CI:
 
     script:
       - docker run -v $(pwd):/$REPO_NAME -e REPO_NAME=$REPO_NAME --cap-add=SYS_ADMIN opensciencegrid/osg-build build-from-github
+
+If you have Source files listed as URLs in your spec file and want to download
+them for your Travis-CI builds, add `- GET_FILES=true` to the `env` section
+of .travis.yml.
