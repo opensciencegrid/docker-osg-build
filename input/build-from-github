@@ -1,9 +1,15 @@
 #!/bin/bash
 
+is_true () {
+    [[ $1 =~ ^[yY]|[tT]|1 ]]
+}
+
+SPECFILE=/$REPO_NAME/rpm/$REPO_NAME.spec
 # Generate the dirs/files necessary for osg-build
 mkdir upstream
-[[ -z $VERSION ]] && VERSION=$(rpmspec -P "/$REPO_NAME/rpm/$REPO_NAME.spec" | awk '/^Version:/ {print $2; exit}')
+[[ -z $VERSION ]] && VERSION=$(rpmspec -P "$SPECFILE" | awk '/^Version:/ {print $2; exit}')
 [[ -z $TARBALL_NAME ]] && TARBALL_NAME="$REPO_NAME-$VERSION.tar.gz"
+is_true "$GET_FILES" && spectool --get-files --directory upstream "$SPECFILE"
 echo "type=git url=/$REPO_NAME name=$REPO_NAME tarball=$TARBALL_NAME tag=HEAD hash=dummy" > upstream/local.git.source
 
 # Run osg-build
