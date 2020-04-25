@@ -1,14 +1,14 @@
-FROM centos:7
+FROM centos:8
 
 LABEL maintainer="OSG Software <help@opensciencegrid.org>"
 LABEL name="OSG 3.5 OSG-Build client"
 
-RUN yum -y install https://repo.opensciencegrid.org/osg/3.5/osg-3.5-el7-release-latest.rpm \
-                   epel-release \
-                   yum-plugin-priorities && \
+RUN yum -y install https://repo.opensciencegrid.org/osg/3.5/osg-3.5-el8-release-latest.rpm \
+                   epel-release && \
     # Install packages included in the Koji build repos
-    yum -y install --enablerepo=osg-development \
+    yum -y install --enablerepo=osg-minefield \
                    --enablerepo=devops-itb \
+                   --enablerepo=PowerTools \
                    epel-rpm-macros \
                    tar \
                    sed \
@@ -17,7 +17,6 @@ RUN yum -y install https://repo.opensciencegrid.org/osg/3.5/osg-3.5-el7-release-
                    redhat-rpm-config \
                    make \
                    shadow-utils \
-                   coreutils \
                    buildsys-macros \
                    which \
                    gcc-c++ \
@@ -29,10 +28,9 @@ RUN yum -y install https://repo.opensciencegrid.org/osg/3.5/osg-3.5-el7-release-
                    grep \
                    rpm-build \
                    patch \
-                   util-linux-ng \
                    diffutils \
                    gzip \
-                   redhat-release \
+                   centos-release \
                    bzip2 \
                    globus-proxy-utils \
                    redhat-lsb-core \
