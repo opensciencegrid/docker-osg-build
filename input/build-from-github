@@ -9,11 +9,20 @@ SPECFILE=/$REPO_NAME/rpm/$REPO_NAME.spec
 mkdir upstream
 [[ -z $VERSION ]] && VERSION=$(rpmspec -P "$SPECFILE" | awk '/^Version:/ {print $2; exit}')
 [[ -z $TARBALL_NAME ]] && TARBALL_NAME="$REPO_NAME-$VERSION.tar.gz"
+mock_config_arg=
+if [[ -n $KOJI_BUILD_TAG ]]; then
+    mock_config_arg="--mock-config-from-koji=$KOJI_BUILD_TAG"
+else
+    echo "Warning: KOJI_BUILD_TAG not specified -- using repositories from" >&2
+    readlink -f /etc/mock/default.cfg >&2
+    echo "Set KOJI_BUILD_TAG to a Koji build tag, like 'osg-3.5-el7-build'" >&2
+    echo "to use a set of repositories that Koji builds would use." >&2
+fi
 is_true "$GET_FILES" && spectool --get-files --directory upstream "$SPECFILE"
 echo "type=git url=/$REPO_NAME name=$REPO_NAME tarball=$TARBALL_NAME tag=HEAD hash=dummy" > upstream/local.git.source
 
 # Run osg-build
-osg-build --verbose mock .
+osg-build --verbose mock $mock_config_arg .
 ret=$?
 if [ $ret -ne 0 ]; then
     for build_log in root.log build.log; do
