@@ -116,3 +116,4 @@ Alternatively, test builds in Travis-CI:
 If you have Source files listed as URLs in your spec file and want to
 download them for your Travis-CI builds, set `GET_FILES=true` in the `env`
 section of .travis.yml.
+
