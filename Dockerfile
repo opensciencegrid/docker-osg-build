@@ -8,7 +8,7 @@ RUN yum -y install https://repo.opensciencegrid.org/osg/3.5/osg-3.5-el8-release-
     # Install packages included in the Koji build repos
     yum -y install --enablerepo=osg-minefield \
                    --enablerepo=devops-itb \
-                   --enablerepo=PowerTools \
+                   --enablerepo=powertools \
                    epel-rpm-macros \
                    tar \
                    sed \
