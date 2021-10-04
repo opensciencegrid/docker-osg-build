@@ -2,10 +2,12 @@ ARG EL_VER=7
 
 FROM centos:${EL_VER}
 
+ARG EL_VER=7
+
 LABEL maintainer="OSG Software <help@opensciencegrid.org>"
 LABEL name="OSG 3.5 OSG-Build client"
 
-RUN yum -y install https://repo.opensciencegrid.org/osg/3.5/osg-3.5-el${EL_VER}s-release-latest.rpm \
+RUN yum -y install https://repo.opensciencegrid.org/osg/3.5/osg-3.5-el${EL_VER}-release-latest.rpm \
                    epel-release \
                    yum-utils && \
     if [[ ${EL_VER} == 7 ]]; then \
