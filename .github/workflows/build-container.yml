@@ -2,6 +2,7 @@ name: Build and Push Docker image
 
 on:
   push:
+    branches: [ master ]
   repository_dispatch:
     types:
       - dispatch-build
@@ -10,6 +11,7 @@ on:
 jobs:
   make-date-tag:
     runs-on: ubuntu-latest
+    if: startsWith(github.repository, 'opensciencegrid/')
     outputs:
       dtag: ${{ steps.mkdatetag.outputs.dtag }}
     steps:
@@ -20,6 +22,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     needs: [make-date-tag]
+    if: startsWith(github.repository, 'opensciencegrid/')
     strategy:
       fail-fast: False
       matrix:
@@ -33,9 +36,9 @@ jobs:
         REPO: ${{ matrix.repo }}
         TIMESTAMP: ${{ needs.make-date-tag.outputs.dtag }}
       run: |
-        docker_repo=ryantoh2110/osg-build
+        docker_repo=opensciencegrid/osg-build
         tag_list=()
-        for registry in docker.io; do
+        for registry in hub.opensciencegrid.org docker.io; do
           for version in ${{ matrix.dver }}; do
             tag_list+=($registry/$docker_repo:el$version)
           done
@@ -51,6 +54,13 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Log in to OSG Harbor
+      uses: docker/login-action@v1
+      with:
+        registry: hub.opensciencegrid.org
+        username: ${{ secrets.OSG_HARBOR_ROBOT_USER }}
+        password: ${{ secrets.OSG_HARBOR_ROBOT_PASSWORD }}
 
     - name: Build and push Docker images
       uses: docker/build-push-action@v2.2.0
