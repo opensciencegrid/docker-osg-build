@@ -1,15 +1,29 @@
-FROM centos:7
+ARG EL_VER=7
+
+FROM centos:${EL_VER}
+
+ARG EL_VER=7
 
 LABEL maintainer="OSG Software <help@opensciencegrid.org>"
 LABEL name="OSG 3.5 OSG-Build client"
 
-RUN yum -y install https://repo.opensciencegrid.org/osg/3.5/osg-3.5-el7-release-latest.rpm \
+RUN yum -y install https://repo.opensciencegrid.org/osg/3.5/osg-3.5-el${EL_VER}-release-latest.rpm \
                    epel-release \
-                   yum-plugin-priorities && \
+                   yum-utils && \
+    if [[ ${EL_VER} == 7 ]]; then \
+        yum -y install yum-plugin-priorities; \
+    fi && \
     # Install packages included in the Koji build repos
-    yum -y install --enablerepo=osg-development \
-                   --enablerepo=devops-itb \
-                   epel-rpm-macros \
+    yum-config-manager --enable devops-itb && \
+    if [[ ${EL_VER} == 7 ]]; then \
+        yum -y install coreutils \
+                       util-linux-ng \
+                       redhat-release; \
+    else \
+        yum-config-manager --enable powertools; \
+        yum -y install centos-release; \
+    fi && \
+    yum -y install epel-rpm-macros \
                    tar \
                    sed \
                    findutils \
@@ -17,7 +31,6 @@ RUN yum -y install https://repo.opensciencegrid.org/osg/3.5/osg-3.5-el7-release-
                    redhat-rpm-config \
                    make \
                    shadow-utils \
-                   coreutils \
                    buildsys-macros \
                    which \
                    gcc-c++ \
@@ -29,15 +42,13 @@ RUN yum -y install https://repo.opensciencegrid.org/osg/3.5/osg-3.5-el7-release-
                    grep \
                    rpm-build \
                    patch \
-                   util-linux-ng \
                    diffutils \
                    gzip \
-                   redhat-release \
                    bzip2 \
                    globus-proxy-utils \
                    redhat-lsb-core \
                    rpmdevtools \
-                   osg-build && \
+                   osg-build && \ 
     yum clean all --enablerepo=\* && \
     rm -rf /var/cache/yum/* && \
     rpm -qa | sort > /rpms.txt
