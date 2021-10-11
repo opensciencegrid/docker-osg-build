@@ -16,12 +16,10 @@ RUN yum -y install https://repo.opensciencegrid.org/osg/3.5/osg-3.5-el${EL_VER}-
     # Install packages included in the Koji build repos
     yum-config-manager --enable devops-itb && \
     if [[ ${EL_VER} == 7 ]]; then \
-        yum-config-manager --enable osg-development; \
         yum -y install coreutils \
                        util-linux-ng \
                        redhat-release; \
     else \
-        yum-config-manager --enable osg-minefield; \
         yum-config-manager --enable powertools; \
         yum -y install centos-release; \
     fi && \
