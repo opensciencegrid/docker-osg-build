@@ -12,9 +12,17 @@ ENV LANG=$LOCALE
 ENV LC_ALL=$LOCALE
 
 ADD osg-3.6-build.repo /etc/yum.repos.d/
+ADD osg-23-main-build.repo /etc/yum.repos.d/
 
 RUN --mount=type=cache,target=/var/cache,sharing=locked \
-  yum -y install --enablerepo=osg-3.6-build --enablerepo=devops-itb \
+  if [ $OSG = "3.6" ]; then \
+    repo=osg-3.6-build; \
+    devops_repo=devops-itb; \
+  else \
+    repo=osg-${OSG}-main-build; \
+    devops_repo=${OSG}-internal-development; \
+  fi; \
+  yum -y install --enablerepo=$repo --enablerepo=$devops_repo \
     buildsys-macros \
     buildsys-build \
     buildsys-srpm-build \
