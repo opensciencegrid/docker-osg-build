@@ -2,7 +2,7 @@
 
 CONTAINER_NAME=osg-build
 IMAGE=opensciencegrid/osg-build
-MOUNT_POINT=/u/work
+MOUNT_POINT=/home/build/work
 
 die () {
     echo "$@" 1>&2
@@ -42,7 +42,7 @@ hash=$(docker ps -a --latest --quiet --filter name=$CONTAINER_NAME)
 if [[ -z $hash ]]; then
     echo -n 'creating docker container: '
     docker create -it \
-                      --volume "$HOME/.globus":/u/.globus \
+                      --volume "$HOME/.globus":/home/build/.globus \
                       --volume "$work_dir":"$MOUNT_POINT" \
                       --name $CONTAINER_NAME \
                       $IMAGE  && \
@@ -57,5 +57,5 @@ sleep 2
 
 if [[ -z $hash ]]; then
     docker exec $CONTAINER_NAME \
-        bash -c "echo '$work_dir' > /u/.work_dir"
+        bash -c "echo '$work_dir' > /home/build/.work_dir"
 fi

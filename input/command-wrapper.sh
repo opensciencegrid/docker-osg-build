@@ -27,7 +27,7 @@ relpath () {
 outside_wd=$1
 shift
 
-IFS=  read -r work_dir  </u/.work_dir
+IFS=  read -r work_dir  </home/build/.work_dir
 
 inside_wd=$(relpath "$outside_wd" "$work_dir")
 

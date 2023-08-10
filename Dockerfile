@@ -54,17 +54,17 @@ RUN yum -y install https://repo.opensciencegrid.org/osg/3.5/osg-3.5-el${EL_VER}-
     rm -rf /var/cache/yum/* && \
     rpm -qa | sort > /rpms.txt
 
-RUN groupadd u && \
-    useradd -g u -G mock -m -d /u u && \
-    install -d -o u -g u -m 0755 /u/.osg-koji && \
-    ln -s /u/.osg-koji /u/.koji && \
-    chown u:u /u/.koji
+RUN groupadd build
+RUN useradd -g build -G mock -m -d /home/build build
+RUN install -d -o build -g build -m 0755 /home/build/.osg-koji
+RUN ln -s .osg-koji /home/build/.koji
+RUN chown build: /home/build/.koji
 
-COPY input/osg-ca-bundle.crt    /u/.osg-koji/osg-ca-bundle.crt
-COPY input/config               /u/.osg-koji/config
+COPY input/osg-ca-bundle.crt    /home/build/.osg-koji/osg-ca-bundle.crt
+COPY input/config               /home/build/.osg-koji/config
 COPY input/command-wrapper.sh   /usr/local/bin/command-wrapper.sh
 COPY input/mock.cfg             /etc/mock/site-defaults.cfg
 COPY input/build-from-github    /usr/local/bin/build-from-github
 
-USER u
-WORKDIR /u
+USER build
+WORKDIR /home/build
