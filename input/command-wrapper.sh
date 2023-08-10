@@ -3,7 +3,7 @@
 export X509_USER_PROXY=~/.osg-koji/client.crt
 
 get_proxy () {
-    grid-proxy-init -out "$X509_USER_PROXY"
+    voms-proxy-init -out "$X509_USER_PROXY"
 }
 
 get_proxy_if_needed () {
@@ -12,7 +12,7 @@ get_proxy_if_needed () {
         return
     fi
 
-    timeleft=$(grid-proxy-info -timeleft -file "$X509_USER_PROXY")
+    timeleft=$(voms-proxy-info -timeleft -file "$X509_USER_PROXY")
     ret=$?
 
     if [[ $ret -ne 0 || $timeleft -lt 60 ]]; then
@@ -21,7 +21,7 @@ get_proxy_if_needed () {
 }
 
 relpath () {
-    python -c "import os,sys; print os.path.relpath(sys.argv[1], sys.argv[2])" "$1" "$2"
+    python3 -c "import os,sys; print(os.path.relpath(sys.argv[1], sys.argv[2]))" "$1" "$2"
 }
 
 outside_wd=$1
