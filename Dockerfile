@@ -11,8 +11,8 @@ LABEL maintainer="OSG Software <help@osg-htc.org>"
 ENV LANG=$LOCALE
 ENV LC_ALL=$LOCALE
 
-ADD osg-3.6-build.repo /etc/yum.repos.d/
-ADD osg-23-main-build.repo /etc/yum.repos.d/
+COPY input/osg-3.6-build.repo      /etc/yum.repos.d/
+COPY input/osg-23-main-build.repo  /etc/yum.repos.d/
 
 RUN --mount=type=cache,target=/var/cache,sharing=locked \
   if [ $OSG = "3.6" ]; then \
@@ -26,8 +26,8 @@ RUN --mount=type=cache,target=/var/cache,sharing=locked \
     buildsys-macros \
     buildsys-build \
     buildsys-srpm-build \
-    voms-clients \
     osg-build-deps
+RUN /usr/sbin/install-osg-build.sh
 
 RUN groupadd build
 RUN useradd -g build -G mock -m -d /home/build build
