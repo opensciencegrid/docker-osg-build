@@ -45,7 +45,9 @@ RUN \
  install /root/input/command-wrapper.sh /usr/local/bin/command-wrapper.sh && \
  install /root/input/build-from-github  /usr/local/bin/build-from-github && \
  install -m 0644 /root/input/mock.cfg   /etc/mock/site-defaults.cfg && \
- install -o build -g build /root/input/config /home/build/.osg-koji/config
+ install -o build -g build /root/input/config /home/build/.osg-koji/config && \
+ ln -s .osg-koji /home/build/.koji && \
+ chown build:build /home/build/.koji
 
 USER build
 WORKDIR /home/build
