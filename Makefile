@@ -24,7 +24,7 @@ clean:
 osg_build.tar: Dockerfile input/* buildbuilder
 	$(dobuild)
 	-rm -f $@.new
-	# have to do this in two steps because docker save won't overwrite an existing file
+# have to do this in two steps because docker save won't overwrite an existing file
 	"$(DOCKER)" save -o $@.new "$(OSG_BUILD_IMAGE)"
 	mv -f $@.new $@
 
