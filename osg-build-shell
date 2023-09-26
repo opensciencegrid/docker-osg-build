@@ -39,6 +39,9 @@ else
     shift
 fi
 
+# only allocate a tty if stdin and stdout are both ttys.
+# Allocating a tty causes piping issues (for example, the output side
+# will contain CRLF line terminators instead of LF)
 t=
 [[ -t 0 && -t 1 ]] && t=-t
 
