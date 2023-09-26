@@ -1,70 +1,56 @@
-ARG EL_VER=7
+FROM almalinux:9
+ARG OSG=3.6
+ARG LOCALE=C.UTF-8
 
-FROM centos:${EL_VER}
+LABEL name="osg-build"
+LABEL maintainer="OSG Software <help@osg-htc.org>"
 
-ARG EL_VER=7
+ENV LANG=$LOCALE
+ENV LC_ALL=$LOCALE
 
-LABEL maintainer="OSG Software <help@opensciencegrid.org>"
-LABEL name="OSG 3.5 OSG-Build client"
+COPY input /root/input
 
-RUN yum -y install https://repo.opensciencegrid.org/osg/3.5/osg-3.5-el${EL_VER}-release-latest.rpm \
-                   epel-release \
-                   yum-utils && \
-    if [[ ${EL_VER} == 7 ]]; then \
-        yum -y install yum-plugin-priorities; \
-    fi && \
-    # Install packages included in the Koji build repos
-    yum-config-manager --enable devops-itb && \
-    if [[ ${EL_VER} == 7 ]]; then \
-        yum -y install coreutils \
-                       util-linux-ng \
-                       redhat-release; \
-    else \
-        yum-config-manager --enable osg-minefield; \
-        yum-config-manager --enable powertools; \
-        yum -y install centos-release; \
-    fi && \
-    yum -y install epel-rpm-macros \
-                   tar \
-                   sed \
-                   findutils \
-                   gcc \
-                   redhat-rpm-config \
-                   make \
-                   shadow-utils \
-                   buildsys-macros \
-                   which \
-                   gcc-c++ \
-                   unzip \
-                   gawk \
-                   cpio \
-                   bash \
-                   info \
-                   grep \
-                   rpm-build \
-                   patch \
-                   diffutils \
-                   gzip \
-                   bzip2 \
-                   globus-proxy-utils \
-                   redhat-lsb-core \
-                   rpmdevtools \
-                   osg-build && \
-    yum clean all --enablerepo=\* && \
-    rm -rf /var/cache/yum/* && \
-    rpm -qa | sort > /rpms.txt
+RUN --mount=type=cache,target=/var/cache/dnf,sharing=locked \
+ cp /root/input/dist-build.repo /etc/yum.repos.d/ && \
+ dnf -y install https://repo.opensciencegrid.org/osg/${OSG}/osg-${OSG}-el9-release-latest.rpm \
+                epel-release \
+                dnf-plugins-core \
+                which && \
+ dnf config-manager --enable osg-minefield && \
+ dnf config-manager --setopt install_weak_deps=false --save && \
+ dnf config-manager --enable crb && \
+ case $OSG in \
+    3.6) dnf config-manager --enable devops-itb ;; \
+    23) dnf config-manager --enable osg-internal-minefield ;; \
+ esac && \
+ dnf -y install \
+   buildsys-macros \
+   buildsys-srpm-build \
+   'osg-build-deps >= 4' \
+   globus-proxy-utils \
+   # ^^ sorry, but voms-proxy-init gives me "verification failed" \
+   osg-ca-certs && \
+   \
+   useradd -u 1000 -G mock -d /home/build build && \
+   install -d -o build -g build /home/build/.osg-koji /home/build/.globus
 
-RUN groupadd u && \
-    useradd -g u -G mock -m -d /u u && \
-    install -d -o u -g u -m 0755 /u/.osg-koji && \
-    ln -s /u/.osg-koji /u/.koji && \
-    chown u:u /u/.koji
+ARG OSG_BUILD_BRANCH=master
+ARG OSG_BUILD_REPO=https://github.com/opensciencegrid/osg-build
 
-COPY input/osg-ca-bundle.crt    /u/.osg-koji/osg-ca-bundle.crt
-COPY input/config               /u/.osg-koji/config
-COPY input/command-wrapper.sh   /usr/local/bin/command-wrapper.sh
-COPY input/mock.cfg             /etc/mock/site-defaults.cfg
-COPY input/build-from-github    /usr/local/bin/build-from-github
+ARG RANDOM=
+# ^^ set this to $RANDOM to use RPMs from cache but install a fresh osg-build
 
-USER u
-WORKDIR /u
+RUN \
+ /usr/sbin/install-osg-build.sh "$OSG_BUILD_REPO" "$OSG_BUILD_BRANCH" && \
+ install /root/input/command-wrapper.sh /usr/local/bin/command-wrapper.sh && \
+ install /root/input/build-from-github  /usr/local/bin/build-from-github && \
+ install -m 0644 /root/input/mock.cfg   /etc/mock/site-defaults.cfg && \
+ install -o build -g build /root/input/config /home/build/.osg-koji/config && \
+ ln -s .osg-koji /home/build/.koji && \
+ chown build:build /home/build/.koji
+
+USER build
+WORKDIR /home/build
+
+# The koji-hub server to use
+ENV KOJI_HUB=koji.opensciencegrid.org
