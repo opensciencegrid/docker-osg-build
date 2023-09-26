@@ -27,6 +27,7 @@ RUN --mount=type=cache,target=/var/cache/dnf,sharing=locked \
    buildsys-macros \
    buildsys-srpm-build \
    'osg-build-deps >= 4' \
+   tini \
    globus-proxy-utils \
    # ^^ sorry, but voms-proxy-init gives me "verification failed" \
    osg-ca-certs && \
@@ -54,3 +55,5 @@ WORKDIR /home/build
 
 # The koji-hub server to use
 ENV KOJI_HUB=koji.opensciencegrid.org
+
+CMD tini -- sleep infinity

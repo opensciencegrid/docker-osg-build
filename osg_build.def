@@ -1,2 +1,9 @@
 Bootstrap: docker-archive
 From: osg_build.tar
+
+%runscript
+    #!/bin/bash
+    command=${1:-bash}
+    shift
+    exec "$command" "$@"
+
