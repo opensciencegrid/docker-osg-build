@@ -14,6 +14,7 @@ exec "${DOCKER}" build \
     --build-arg=OSG_BUILD_REPO="${OSG_BUILD_REPO}" \
     --build-arg=OSG_BUILD_BRANCH="${OSG_BUILD_BRANCH}" \
     --tag "${OSG_BUILD_IMAGE}" \
+    --label git.describe="$(git describe --tags --always --dirty)" \
     $squash \
     -f Dockerfile \
     "$@"
