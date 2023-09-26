@@ -1,2 +1,14 @@
 #!/bin/bash
-exec docker build "$@" . --tag opensciencegrid/osg-build:latest
+
+: "${OSG_BUILD_IMAGE:=opensciencegrid/osg-build:latest}"
+: "${OSG_BUILD_REPO:=opensciencegrid}"
+: "${OSG_BUILD_BRANCH:=master}"
+: "${DOCKER:=docker}"
+
+exec "${DOCKER}" build \
+    --build-arg=OSG_BUILD_REPO="${OSG_BUILD_REPO}" \
+    --build-arg=OSG_BUILD_BRANCH="${OSG_BUILD_BRANCH}" \
+    --tag "${OSG_BUILD_IMAGE}" \
+    --squash \
+    -f Dockerfile
+
