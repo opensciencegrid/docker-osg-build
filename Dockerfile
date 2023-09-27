@@ -17,6 +17,7 @@ RUN --mount=type=cache,target=/var/cache/dnf,sharing=locked \
                 dnf-plugins-core \
                 which \
                 rpm-sign \
+                pinentry \
                 python-unversioned-command \
                 && \
  dnf config-manager --enable osg-minefield && \
