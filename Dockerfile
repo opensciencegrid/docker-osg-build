@@ -50,6 +50,9 @@ RUN \
  ln -s .osg-koji /home/build/.koji && \
  chown build:build /home/build/.koji
 
+# Add a prompt so people know what they're shelled into
+RUN echo 'PS1="[\$? \\u@[osg-build] \\W]\\$ "' > /etc/profile.d/prompt.sh
+
 USER build
 WORKDIR /home/build
 
