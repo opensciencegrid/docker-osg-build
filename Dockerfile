@@ -15,7 +15,10 @@ RUN --mount=type=cache,target=/var/cache/dnf,sharing=locked \
  dnf -y install https://repo.opensciencegrid.org/osg/${OSG}/osg-${OSG}-el9-release-latest.rpm \
                 epel-release \
                 dnf-plugins-core \
-                which && \
+                which \
+                rpm-sign \
+                python-unversioned-command \
+                && \
  dnf config-manager --enable osg-minefield && \
  dnf config-manager --setopt install_weak_deps=false --save && \
  dnf config-manager --enable crb && \
