@@ -1,7 +1,7 @@
 #!/bin/bash
 
+: "${OSG_BUILD_IMAGE:=opensciencegrid/osg-build}"
 CONTAINER_NAME=osg-build
-IMAGE=opensciencegrid/osg-build
 MOUNT_POINT=/home/build/work
 INSIDE_UID=1000  # UID of "build" user inside the container
 INSIDE_GID=1000  # GID of "build" user inside the container
@@ -85,7 +85,7 @@ if ! $container_already_exists; then
                       $localtime_arg \
                       --name $CONTAINER_NAME \
                       $userns_arg \
-                      $IMAGE  && \
+                      "$OSG_BUILD_IMAGE"  && \
         sleep 2
 fi
 

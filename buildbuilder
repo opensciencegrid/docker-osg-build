@@ -1,5 +1,10 @@
 #!/bin/bash
 
+squash=--squash
+if [[ $NO_SQUASH ]]; then
+    squash=
+fi
+
 : "${OSG_BUILD_IMAGE:=opensciencegrid/osg-build:latest}"
 : "${OSG_BUILD_REPO:=opensciencegrid}"
 : "${OSG_BUILD_BRANCH:=master}"
@@ -9,6 +14,7 @@ exec "${DOCKER}" build \
     --build-arg=OSG_BUILD_REPO="${OSG_BUILD_REPO}" \
     --build-arg=OSG_BUILD_BRANCH="${OSG_BUILD_BRANCH}" \
     --tag "${OSG_BUILD_IMAGE}" \
-    --squash \
-    -f Dockerfile
-
+    --label git.describe="$(git describe --tags --always --dirty)" \
+    $squash \
+    -f Dockerfile \
+    "$@"
