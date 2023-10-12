@@ -61,6 +61,6 @@ USER build
 WORKDIR /home/build
 
 # The koji-hub server to use
-ENV KOJI_HUB=koji.opensciencegrid.org
+ENV KOJI_HUB=
 
 CMD tini -- sleep infinity
