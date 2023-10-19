@@ -8,6 +8,9 @@ LABEL maintainer="OSG Software <help@osg-htc.org>"
 ENV LANG=$LOCALE
 ENV LC_ALL=$LOCALE
 
+RUN --mount=type=cache,target=/var/cache/dnf,sharing=locked \
+ dnf -y update
+
 COPY input /root/input
 
 RUN --mount=type=cache,target=/var/cache/dnf,sharing=locked \
