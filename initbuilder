@@ -93,7 +93,8 @@ $docker start $CONTAINER_NAME
 sleep 2
 
 if $container_already_exists; then
-    echo "Container $CONTAINER_NAME already exists; work dir is $work_dir"
+    existing_work_dir=$($docker exec $CONTAINER_NAME cat /home/build/.work_dir)
+    echo "Container $CONTAINER_NAME already exists; work dir is $existing_work_dir"
 fi
 if $container_already_exists && [[ $work_dir ]]; then  # make sure work_dir is same as inside
     real_work_dir=$(cd "$work_dir" 2>/dev/null && pwd -P)
