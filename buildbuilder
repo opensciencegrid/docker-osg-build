@@ -1,5 +1,9 @@
 #!/bin/bash
 
+no_cache=
+if [[ $NO_CACHE ]]; then
+    no_cache=--no-cache
+fi
 squash=--squash
 if [[ $NO_SQUASH ]]; then
     squash=
@@ -10,11 +14,16 @@ fi
 : "${OSG_BUILD_BRANCH:=master}"
 : "${DOCKER:=docker}"
 
-exec "${DOCKER}" build \
+git_describe=$(git describe --tags --always --dirty)
+
+set -x
+"${DOCKER}" build \
+    $no_cache \
     --build-arg=OSG_BUILD_REPO="${OSG_BUILD_REPO}" \
     --build-arg=OSG_BUILD_BRANCH="${OSG_BUILD_BRANCH}" \
+    --build-arg=RANDOM="${RANDOM}" \
     --tag "${OSG_BUILD_IMAGE}" \
-    --label git.describe="$(git describe --tags --always --dirty)" \
+    --label git.describe="$git_describe" \
     $squash \
     -f Dockerfile \
     "$@"
