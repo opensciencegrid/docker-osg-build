@@ -14,7 +14,7 @@ if [[ $1 = "--no-strict-work-dir" ]]; then
 fi
 
 
-if [[ -x /home/build/work ]]; then
+if [[ ! -x /home/build/work ]]; then
     # we can't enter the work dir anyway; ignore it and just run the command
     shift
     exec "$@"
