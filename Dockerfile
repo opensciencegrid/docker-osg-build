@@ -1,4 +1,7 @@
-FROM almalinux:9
+ARG EL=9
+
+FROM almalinux:${EL}
+ARG EL
 ARG OSG=24
 ARG LOCALE=C.UTF-8
 
@@ -8,34 +11,33 @@ LABEL maintainer="OSG Software <help@osg-htc.org>"
 ENV LANG=$LOCALE
 ENV LC_ALL=$LOCALE
 
-RUN --mount=type=cache,id=dnf-9,target=/var/cache/dnf,sharing=locked \
+RUN --mount=type=cache,id=dnf-${EL},target=/var/cache/dnf,sharing=locked \
  dnf -y update
 
 COPY input /root/input
 
-RUN --mount=type=cache,id=dnf-9,target=/var/cache/dnf,sharing=locked \
+RUN --mount=type=cache,id=dnf-${EL},target=/var/cache/dnf,sharing=locked \
  cp /root/input/dist-build.repo /etc/yum.repos.d/ && \
  OSGSTR=${OSG}-main && \
- dnf -y install https://repo.osg-htc.org/osg/${OSGSTR}/osg-${OSGSTR}-el9-release-latest.rpm \
+ dnf -y install https://repo.osg-htc.org/osg/${OSGSTR}/osg-${OSGSTR}-el${EL}-release-latest.rpm \
                 epel-release \
                 dnf-plugins-core \
                 which \
                 rpm-sign \
                 pinentry \
-                python-unversioned-command \
                 krb5-workstation \
                 sssd-client \
                 nano \
                 && \
  dnf config-manager --enable osg-minefield && \
  dnf config-manager --setopt install_weak_deps=false --save && \
- dnf config-manager --enable crb && \
+ crb enable && \
  dnf config-manager --enable osg-internal-minefield && \
- rm -f /etc/yum.repos.d/osg-next*.repo && \
+ rm -f /etc/yum.repos.d/osg-next*.repo; \
  dnf -y install \
    buildsys-macros \
    buildsys-srpm-build \
-   'osg-build-deps >= 4' \
+   'osg-build-deps >= 7' \
    quilt \
    tini \
    && \
