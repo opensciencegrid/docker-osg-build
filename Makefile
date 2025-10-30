@@ -81,7 +81,7 @@ push-docker: osg_build.tar
 
 push-sif: $(OSG_BUILD_SIF)
 	read -p "Username for $(REGISTRY): " && $(SINGULARITY) registry login --username $$REPLY oras://$(REGISTRY)
-	# Can't use the same image name for singularity images as docker images, otherwise pulling the docker image fails with "unsupported media type application/vnd.sylabs.sif.config.v1+json"
+# Can't use the same image name for singularity images as docker images, otherwise pulling the docker image fails with "unsupported media type application/vnd.sylabs.sif.config.v1+json"
 	$(SINGULARITY) push $< oras://hub.opensciencegrid.org/$(OSG_BUILD_IMAGE)-sif
 	if $(TAG_OLD); then \
 		$(SINGULARITY) push $< oras://hub.opensciencegrid.org/$(OSG_BUILD_IMAGE_OLD)-sif; \
