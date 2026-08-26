@@ -2,7 +2,7 @@ ARG EL=9
 
 FROM almalinux:${EL}
 ARG EL
-ARG OSG=24
+ARG OSG=25
 ARG LOCALE=C.UTF-8
 
 LABEL name="osg-build"
