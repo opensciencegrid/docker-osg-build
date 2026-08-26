@@ -5,7 +5,7 @@ OSG_BUILD_BRANCH ?= V2-branch
 OSG_BUILD_SIF ?= osg_build.sif
 DOCKER ?= docker
 SINGULARITY ?= singularity
-REGISTRY ?= hub.opensciencegrid.org
+REGISTRY ?= hub.osg-htc.org
 TAG_OLD ?= false
 
 define dobuild =
